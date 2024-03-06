@@ -60,12 +60,15 @@ export function App() {
             value: item.id,
             label: `${item.firstName} ${item.lastName}`,
           })}
-          onChange={async (newValue) => {
-            if (newValue === null) {
-              return
+          onChange={async (selectedEmployee) => {
+            if (selectedEmployee === null || selectedEmployee === EMPTY_EMPLOYEE) {
+              // Assuming EMPTY_EMPLOYEE denotes "All Employees"
+              paginatedTransactionsUtils.invalidateData(); // This should reset your paginated transactions
+              await loadAllTransactions(); // Fetch the initial set of paginated transactions
+            } else {
+              // Specific employee is selected
+              await loadTransactionsByEmployee(selectedEmployee.id);
             }
-
-            await loadTransactionsByEmployee(newValue.id)
           }}
         />
 
