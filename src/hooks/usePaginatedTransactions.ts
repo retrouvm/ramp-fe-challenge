@@ -16,6 +16,9 @@ export function usePaginatedTransactions(): PaginatedTransactionsResult {
         page: paginatedTransactions === null ? 0 : paginatedTransactions.nextPage,
       }
     )
+    if (paginatedTransactions !== null && paginatedTransactions.nextPage === null) {
+      return;
+    }
 
     setPaginatedTransactions((previousResponse) => {
       if (response === null || previousResponse === null) {
